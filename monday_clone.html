@@ -433,7 +433,7 @@
     #canvas{
       position: relative;
       width: 100%;
-      height: 1000px;
+      height: 3000px;
     }
 
     .widget {
@@ -1129,9 +1129,9 @@
         </div>
       </div>
 
-      <div id="canvas" class="">
+      <div id="canvas" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
 
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
           <div class="flex justify-between items-center mb-6">
             <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
@@ -1194,7 +1194,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px] top-[0px] left-[400px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
             <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
@@ -1303,7 +1303,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px] top-[0px] left-[700px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
             <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
@@ -1402,7 +1402,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl p-6 lg:col-span-2 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[600px] h-[300px] top-[300px] left-[0px]" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
             <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
@@ -1475,7 +1475,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl p-6 xl:col-span-3 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="weekly-overview" data-min-width="640" data-min-height="320">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[900px] h-[300px] top-[600px] left-[0px]" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
             <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
@@ -2167,10 +2167,15 @@
       });
     });
 
+    
+
+
+
+
   </script>
 
   <script>
-    const gridSize = 106.6667;
+    const gridSize = 100;
     const canvas = document.getElementById('canvas');
     const ghost = document.createElement('div');
     ghost.className = 'ghost';
