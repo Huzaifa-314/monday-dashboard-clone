@@ -430,28 +430,55 @@
     }
 
     /* Add this to your <style> section */
-    #widget-area .widget {
+    #canvas{
       position: relative;
+      width: 100%;
+      height: 1000px;
     }
 
-    #widget-area .widget::after {
-      content: "";
+    .widget {
       position: absolute;
-      right: 0px;
-      bottom: 0px;
-      width: 22px;
-      height: 22px;
-      background: linear-gradient(135deg, #4361EE 60%, #7209B7 100%);
-      border-radius: 4px;
-      opacity: 0.85;
-      cursor: nwse-resize;
-      z-index: 2;
-      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.12);
-      mask-image: linear-gradient(135deg, transparent 60%, black 100%);
-      -webkit-mask-image: linear-gradient(135deg, transparent 60%, black 100%);
-      pointer-events: auto;
-      z-index:99;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      z-index: 10;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-drag: none;
+      transition: left 0.2s ease, top 0.2s ease, width 0.2s ease, height 0.2s ease;
     }
+
+    .drag-handle {
+      cursor: grab;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: #666;
+      margin-right: 8px;
+    }
+
+    .widget-resizer {
+      width: 15px;
+      height: 15px;
+      background: #999;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      cursor: se-resize;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .ghost {
+      position: absolute;
+      background: rgba(100, 149, 237, 0.2);
+      border: 2px dashed cornflowerblue;
+      pointer-events: none;
+      z-index: 1;
+      display: none;
+      transition: all 0.2s ease;
+    }
+
   </style>
 
 <body class="bg-app-light dark:bg-app-darker font-body transition-colors duration-300 overflow-x-hidden relative">
@@ -1102,10 +1129,11 @@
         </div>
       </div>
 
-      <div id="widget-area" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div id="canvas" class="">
 
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="progress" data-min-width="320" data-min-height="320">
+        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
           <div class="flex justify-between items-center mb-6">
+            <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
               Weekly Progress
             </h3>
@@ -1168,6 +1196,7 @@
 
         <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
+            <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
               June 2025
             </h3>
@@ -1276,6 +1305,7 @@
 
         <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
+            <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
               Team Performance
             </h3>
@@ -1374,6 +1404,7 @@
 
         <div class="widget glass-card rounded-2xl p-6 lg:col-span-2 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
+            <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
               Task Distribution
             </h3>
@@ -1446,6 +1477,7 @@
 
         <div class="widget glass-card rounded-2xl p-6 xl:col-span-3 transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="weekly-overview" data-min-width="640" data-min-height="320">
           <div class="flex justify-between items-center mb-6">
+            <span class="drag-handle">⋮⋮</span>
             <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
               Weekly Overview
             </h3>
@@ -2007,104 +2039,11 @@
       );
     }
 
-    let draggedElement = null;
 
-    function initializeDragAndDrop() {
-      const widgets = document.querySelectorAll(".widget");
 
-      widgets.forEach((widget) => {
-        widget.addEventListener("dragstart", handleDragStart);
-        widget.addEventListener("dragend", handleDragEnd);
-        widget.addEventListener("dragover", handleDragOver);
-        widget.addEventListener("drop", handleDrop);
-        widget.addEventListener("dragenter", handleDragEnter);
-        widget.addEventListener("dragleave", handleDragLeave);
-      });
-    }
-
-    function handleDragStart(e) {
-      draggedElement = this;
-      this.classList.add("widget-dragging");
-      e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/html", this.outerHTML);
-    }
-
-    function handleDragEnd(e) {
-      this.classList.remove("widget-dragging");
-
-      document.querySelectorAll(".widget").forEach((widget) => {
-        widget.classList.remove("drop-zone");
-        widget.style.opacity = "1";
-        widget.style.transform = "";
-      });
-
-      draggedElement = null;
-    }
-
-    function handleDragOver(e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      }
-      e.dataTransfer.dropEffect = "move";
-      return false;
-    }
-
-    function handleDragEnter(e) {
-      if (this !== draggedElement) {
-        this.classList.add("drop-zone");
-      }
-    }
-
-    function handleDragLeave(e) {
-      this.classList.remove("drop-zone");
-    }
-
-    function handleDrop(e) {
-      if (e.stopPropagation) {
-        e.stopPropagation();
-      }
-
-      if (draggedElement !== this) {
-        const container =
-          currentView === "projects"
-            ? document.getElementById("projects-view")
-            : document.querySelector("#statistics-view .grid");
-        const widgets = Array.from(container.querySelectorAll(".widget"));
-        const draggedIndex = widgets.indexOf(draggedElement);
-        const targetIndex = widgets.indexOf(this);
-
-        const draggedHTML = draggedElement.outerHTML;
-        draggedElement.remove();
-
-        if (draggedIndex < targetIndex) {
-          this.insertAdjacentHTML("afterend", draggedHTML);
-        } else {
-          this.insertAdjacentHTML("beforebegin", draggedHTML);
-        }
-
-        setTimeout(() => {
-          initializeDragAndDrop();
-
-          document.querySelectorAll(".widget").forEach((widget) => {
-            widget.style.opacity = "1";
-            widget.style.transform = "";
-            widget.classList.remove("widget-dragging", "drop-zone");
-          });
-        }, 100);
-      }
-
-      this.classList.remove("drop-zone");
-      document.querySelectorAll(".widget").forEach((widget) => {
-        widget.style.opacity = "1";
-        widget.style.transform = "";
-        widget.classList.remove("widget-dragging", "drop-zone");
-      });
-
-      return false;
-    }
+  
 
     document.addEventListener("DOMContentLoaded", function () {
-      initializeDragAndDrop();
       showView("projects");
       updateTaskCounts();
 
@@ -2228,70 +2167,156 @@
       });
     });
 
-    (function () {
-      const widgetArea = document.getElementById('widget-area');
-      if (!widgetArea) return;
-
-      let resizingWidget = null;
-      let startX = 0;
-      let startColSpan = 1;
-      const maxCols = 3; // grid-cols-3
-
-      // Helper: get col span from style or default
-      function getColSpan(widget) {
-        const style = widget.style.gridColumnEnd;
-        if (style && style.startsWith('span ')) {
-          return parseInt(style.replace('span ', ''), 10);
-        }
-        // fallback to 1
-        return 1;
-      }
-
-      // Helper: set col span
-      function setColSpan(widget, span) {
-        widget.style.gridColumnEnd = `span ${span}`;
-      }
-
-      // Listen for mousedown on the resizer
-      widgetArea.addEventListener('mousedown', function (e) {
-        const widget = e.target.closest('.widget');
-        if (!widget) return;
-
-        // Only if the resizer indicator is clicked
-        const isResizer = e.target === widget && e.offsetX > widget.offsetWidth - 30 && e.offsetY > widget.offsetHeight - 30;
-        // Or, more robust: check if the pseudo-element is hit (not possible directly), so use a helper div if needed.
-        // For now, allow bottom-right 30x30px area
-        if (isResizer) {
-          resizingWidget = widget;
-          startX = e.clientX;
-          startColSpan = getColSpan(widget);
-          document.body.style.userSelect = 'none';
-          e.preventDefault();
-        }
-      });
-
-      // Listen for mousemove on document
-      document.addEventListener('mousemove', function (e) {
-        if (!resizingWidget) return;
-        const dx = e.clientX - startX;
-        // Each 120px = 1 column (adjust as needed)
-        let newSpan = Math.max(1, Math.min(maxCols, startColSpan + Math.round(dx / 120)));
-        setColSpan(resizingWidget, newSpan);
-      });
-
-      // Listen for mouseup to stop resizing
-      document.addEventListener('mouseup', function () {
-        if (resizingWidget) {
-          resizingWidget = null;
-          document.body.style.userSelect = '';
-        }
-      });
-    })();
-
-
-
-
   </script>
 
+  <script>
+    const gridSize = 106.6667;
+    const canvas = document.getElementById('canvas');
+    const ghost = document.createElement('div');
+    ghost.className = 'ghost';
+    canvas.appendChild(ghost);
+  
+    let isDragging = false, isResizing = false;
+  
+    function snap(val) {
+      return Math.round(val / gridSize) * gridSize;
+    }
+  
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(val, max));
+    }
+  
+    function getOtherRects(exclude) {
+      return [...document.querySelectorAll('.widget')]
+        .filter(w => w !== exclude)
+        .map(w => w.getBoundingClientRect());
+    }
+  
+    function isOverlapping(r1, r2) {
+      return !(r1.right <= r2.left || r1.left >= r2.right || r1.bottom <= r2.top || r1.top >= r2.bottom);
+    }
+  
+    function canPlaceAt(x, y, w, h, self) {
+      const rect = { left: x, top: y, right: x + w, bottom: y + h };
+      return !getOtherRects(self).some(r => isOverlapping(rect, r));
+    }
+  
+    document.querySelectorAll('#canvas .widget').forEach(widget => {
+      const handle = widget.querySelector('.drag-handle');
+      const resizer = widget.querySelector('.widget-resizer');
+      let offsetX = 0, offsetY = 0;
+  
+      handle.addEventListener('mousedown', e => {
+        e.preventDefault();
+        isDragging = true;
+        offsetX = e.clientX - widget.offsetLeft;
+        offsetY = e.clientY - widget.offsetTop;
+        widget.style.zIndex = 100;
+  
+        const move = e => {
+          if (!isDragging) return;
+  
+          let x = snap(e.clientX - offsetX);
+          let y = snap(e.clientY - offsetY);
+          x = clamp(x, 0, canvas.clientWidth - widget.offsetWidth);
+          y = clamp(y, 0, canvas.clientHeight - widget.offsetHeight);
+  
+          const allowed = canPlaceAt(x, y, widget.offsetWidth, widget.offsetHeight, widget);
+  
+          ghost.style.left = x + 'px';
+          ghost.style.top = y + 'px';
+          ghost.style.width = widget.offsetWidth + 'px';
+          ghost.style.height = widget.offsetHeight + 'px';
+          ghost.style.display = 'block';
+          ghost.style.borderColor = allowed ? 'cornflowerblue' : 'red';
+  
+          widget.dataset.validDrop = allowed ? 'true' : 'false';
+          if (allowed) {
+            widget.dataset.snapX = x;
+            widget.dataset.snapY = y;
+          }
+  
+          canvas.style.cursor = allowed ? 'move' : 'not-allowed';
+        };
+  
+        const up = () => {
+          if (isDragging && widget.dataset.validDrop === 'true') {
+            widget.style.left = widget.dataset.snapX + 'px';
+            widget.style.top = widget.dataset.snapY + 'px';
+          }
+  
+          isDragging = false;
+          ghost.style.display = 'none';
+          canvas.style.cursor = 'default';
+          widget.style.zIndex = 10;
+  
+          document.removeEventListener('mousemove', move);
+          document.removeEventListener('mouseup', up);
+        };
+  
+        document.addEventListener('mousemove', move);
+        document.addEventListener('mouseup', up);
+      });
+  
+      resizer.addEventListener('mousedown', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        isResizing = true;
+  
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startW = widget.offsetWidth;
+        const startH = widget.offsetHeight;
+  
+        widget.style.zIndex = 100;
+  
+        const resize = e => {
+          if (!isResizing) return;
+  
+          let w = snap(startW + (e.clientX - startX));
+          let h = snap(startH + (e.clientY - startY));
+          w = clamp(w, 100, canvas.clientWidth - widget.offsetLeft);
+          h = clamp(h, 100, canvas.clientHeight - widget.offsetTop);
+  
+          const allowed = canPlaceAt(widget.offsetLeft, widget.offsetTop, w, h, widget);
+  
+          ghost.style.left = widget.offsetLeft + 'px';
+          ghost.style.top = widget.offsetTop + 'px';
+          ghost.style.width = w + 'px';
+          ghost.style.height = h + 'px';
+          ghost.style.display = 'block';
+          ghost.style.borderColor = allowed ? 'cornflowerblue' : 'red';
+  
+          if (allowed) {
+            widget.style.width = w + 'px';
+            widget.style.height = h + 'px';
+          }
+  
+          canvas.style.cursor = allowed ? 'se-resize' : 'not-allowed';
+        };
+  
+        const stop = () => {
+          isResizing = false;
+          ghost.style.display = 'none';
+          canvas.style.cursor = 'default';
+          widget.style.zIndex = 10;
+  
+          document.removeEventListener('mousemove', resize);
+          document.removeEventListener('mouseup', stop);
+        };
+  
+        document.addEventListener('mousemove', resize);
+        document.addEventListener('mouseup', stop);
+      });
+    });
+  
+    // Emergency fail-safe for stuck interactions
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      isResizing = false;
+      ghost.style.display = 'none';
+      canvas.style.cursor = 'default';
+    });
+  </script>
 
 </body></html>
