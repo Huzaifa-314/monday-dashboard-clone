@@ -534,6 +534,99 @@
       .no-wrap-mobile {
         white-space: nowrap;
       }
+      #canvas{
+        height: 5000px;
+      }
+    }
+
+
+
+    /*widget css */
+    /* General styles for all widgets */
+
+    /* Widget 1: Weekly Progress */
+    [data-widget-id="progress"] {
+      width: 320px;
+      height: 440px;
+      top: 0px;
+      left: 0px;
+    }
+
+    @media (max-width: 768px) {
+      [data-widget-id="progress"] {
+        width: 100%;
+        height: 420px;
+        top: 0px;
+        left: 0px;
+      }
+    }
+
+    /* Widget 2: Calendar */
+    [data-widget-id="calendar"] {
+      width: 320px;
+      height: 440px;
+      top: 0px;
+      left: 340px;
+    }
+
+    @media (max-width: 768px) {
+      [data-widget-id="calendar"] {
+        width: 100%;
+        height: 460px;
+        top: 440px;
+        left: 0px;
+      }
+    }
+
+    /* Widget 3: Team Performance */
+    [data-widget-id="team"] {
+      width: 410px;
+      height: 440px;
+      top: 0px;
+      left: 680px;
+    }
+
+    @media (max-width: 768px) {
+      [data-widget-id="team"] {
+        width: 100%;
+        height: 360px;
+        top: 920px;
+        left: 0px;
+      }
+    }
+
+    /* Widget 4: Task Distribution */
+    [data-widget-id="distribution"] {
+      width: 600px;
+      height: 340px;
+      top: 460px;
+      left: 0px;
+    }
+
+    @media (max-width: 768px) {
+      [data-widget-id="distribution"] {
+        width: 100%;
+        height: 540px;
+        top: 1300px;
+        left: 0px;
+      }
+    }
+
+    /* Widget 5: Weekly Overview */
+    [data-widget-id="weekly-overview"] {
+      width: 900px;
+      height: 300px;
+      top: 820px;
+      left: 0px;
+    }
+
+    @media (max-width: 768px) {
+      [data-widget-id="weekly-overview"] {
+        width: 100%;
+        height: 480px;
+        top: 1860px;
+        left: 0px;
+      }
     }
 
   </style>
@@ -1464,7 +1557,7 @@
         <!-- widgets -->
         <div id="canvas" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
 
-          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[440px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
+          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl " draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
             <div class="widget-inner h-full flex flex-col">
               <div class="widget-scrollable-content p-6 overflow-auto flex-1">
                 <div class="flex justify-between items-center mb-6">
@@ -1544,7 +1637,7 @@
           </div>
 
 
-          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[440px] top-[0px] left-[340px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
+          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
 
             <div class="widget-inner h-full flex flex-col">
               <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -1677,7 +1770,7 @@
           </div>
 
 
-          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[410px] h-[440px] top-[0px] left-[680px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
+          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
 
             <div class="widget-inner h-full flex flex-col">
               <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -1793,7 +1886,7 @@
           </div>
 
 
-          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[600px] h-[340px] top-[460px] left-[0px]" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
+          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
 
             <div class="widget-inner h-full flex flex-col">
               <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -1882,7 +1975,7 @@
             <div class="widget-resizer"></div>
           </div>
 
-          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[900px] h-[300px] top-[820px] left-[0px]" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
+          <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
 
             <div class="widget-inner h-full flex flex-col">
               <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -2064,14 +2157,6 @@
     </div>
 
     <script>
-
-
-
-      const GRID_COLUMNS = 12;
-      const GRID_GUTTER = 20; // px
-      const GRID_COLUMN_WIDTH = 100; // px
-
-
       let currentView = "projects";
 
       function showToast(message, type = "info", duration = 3000) {
@@ -2648,7 +2733,7 @@
 
     <!-- functionality for dragging and resizing -->
     <script>
-      let gridSize = 20;
+      const gridSize = 20;
       const canvas = document.getElementById('canvas');
       const ghost = document.createElement('div');
       ghost.className = 'ghost';
@@ -2656,21 +2741,20 @@
     
       let isDragging = false, isResizing = false;
     
-      function snap(val) {
-        return Math.round(val / gridSize) * gridSize;
+      function snap(value) {
+        return Math.round(value / gridSize) * gridSize;
       }
     
-      function clamp(val, min, max) {
-        return Math.max(min, Math.min(val, max));
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(value, max));
       }
     
       function getOtherRects(exclude) {
         const canvasRect = canvas.getBoundingClientRect();
-    
         return [...document.querySelectorAll('#canvas .widget')]
-          .filter(w => w !== exclude)
-          .map(w => {
-            const rect = w.getBoundingClientRect();
+          .filter(widget => widget !== exclude)
+          .map(widget => {
+            const rect = widget.getBoundingClientRect();
             return {
               left: rect.left - canvasRect.left,
               top: rect.top - canvasRect.top,
@@ -2680,14 +2764,14 @@
           });
       }
     
-      function isOverlapping(r1, r2) {
-        return !(r1.right <= r2.left || r1.left >= r2.right || r1.bottom <= r2.top || r1.top >= r2.bottom);
+      function isOverlapping(rect1, rect2) {
+        return !(rect1.right <= rect2.left || rect1.left >= rect2.right || rect1.bottom <= rect2.top || rect1.top >= rect2.bottom);
       }
     
-      function canPlaceAt(x, y, w, h, self) {
-        const rect = { left: x, top: y, right: x + w, bottom: y + h };
-        const others = getOtherRects(self);
-        return !others.some(r => isOverlapping(rect, r));
+      function canPlaceAt(x, y, width, height, self) {
+        const rect = { left: x, top: y, right: x + width, bottom: y + height };
+        const otherRects = getOtherRects(self);
+        return !otherRects.some(otherRect => isOverlapping(rect, otherRect));
       }
     
       function saveWidgetPositions() {
@@ -2705,15 +2789,15 @@
       }
     
       function restoreWidgetPositions() {
-        const saved = JSON.parse(localStorage.getItem('widgetPositions') || '{}');
+        const savedPositions = JSON.parse(localStorage.getItem('widgetPositions') || '{}');
         document.querySelectorAll('#canvas .widget').forEach(widget => {
           const id = widget.dataset.widgetId;
-          if (saved[id]) {
+          if (savedPositions[id]) {
             widget.style.position = 'absolute';
-            widget.style.left = saved[id].left;
-            widget.style.top = saved[id].top;
-            widget.style.width = saved[id].width;
-            widget.style.height = saved[id].height;
+            widget.style.left = savedPositions[id].left;
+            widget.style.top = savedPositions[id].top;
+            widget.style.width = savedPositions[id].width;
+            widget.style.height = savedPositions[id].height;
           }
         });
       }
@@ -2723,7 +2807,7 @@
         location.reload();
       }
     
-      // Restore on page load
+      // Restore positions on page load
       window.addEventListener('DOMContentLoaded', restoreWidgetPositions);
     
       document.querySelectorAll('#canvas .widget').forEach(widget => {
@@ -2731,18 +2815,25 @@
         const resizer = widget.querySelector('.widget-resizer');
         let offsetX = 0, offsetY = 0;
     
-        handle.addEventListener('mousedown', e => {
-          e.preventDefault();
+        // Dragging functionality
+        function startDrag(event) {
+          event.preventDefault();
           isDragging = true;
-          offsetX = e.clientX - widget.offsetLeft;
-          offsetY = e.clientY - widget.offsetTop;
+    
+          const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+          const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+          offsetX = clientX - widget.offsetLeft;
+          offsetY = clientY - widget.offsetTop;
           widget.style.zIndex = 100;
     
-          const move = e => {
+          const move = event => {
             if (!isDragging) return;
     
-            let x = snap(e.clientX - offsetX);
-            let y = snap(e.clientY - offsetY);
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+    
+            let x = snap(clientX - offsetX);
+            let y = snap(clientY - offsetY);
             x = clamp(x, 0, canvas.clientWidth - widget.offsetWidth);
             y = clamp(y, 0, canvas.clientHeight - widget.offsetHeight);
     
@@ -2764,11 +2855,11 @@
             canvas.style.cursor = allowed ? 'move' : 'not-allowed';
           };
     
-          const up = () => {
+          const stop = () => {
             if (isDragging && widget.dataset.validDrop === 'true') {
               widget.style.left = widget.dataset.snapX + 'px';
               widget.style.top = widget.dataset.snapY + 'px';
-              saveWidgetPositions(); // ✅ Save position
+              saveWidgetPositions();
             }
     
             isDragging = false;
@@ -2777,46 +2868,57 @@
             widget.style.zIndex = 10;
     
             document.removeEventListener('mousemove', move);
-            document.removeEventListener('mouseup', up);
+            document.removeEventListener('mouseup', stop);
+            document.removeEventListener('touchmove', move);
+            document.removeEventListener('touchend', stop);
           };
     
           document.addEventListener('mousemove', move);
-          document.addEventListener('mouseup', up);
-        });
+          document.addEventListener('mouseup', stop);
+          document.addEventListener('touchmove', move);
+          document.addEventListener('touchend', stop);
+        }
     
-        resizer.addEventListener('mousedown', e => {
-          e.preventDefault();
-          e.stopPropagation();
+        handle.addEventListener('mousedown', startDrag);
+        handle.addEventListener('touchstart', startDrag);
+    
+        // Resizing functionality
+        function startResize(event) {
+          event.preventDefault();
+          event.stopPropagation();
           isResizing = true;
     
-          const startX = e.clientX;
-          const startY = e.clientY;
-          const startW = widget.offsetWidth;
-          const startH = widget.offsetHeight;
+          const startX = event.touches ? event.touches[0].clientX : event.clientX;
+          const startY = event.touches ? event.touches[0].clientY : event.clientY;
+          const startWidth = widget.offsetWidth;
+          const startHeight = widget.offsetHeight;
     
           widget.style.zIndex = 100;
     
-          const resize = e => {
+          const resize = event => {
             if (!isResizing) return;
     
-            let w = snap(startW + (e.clientX - startX));
-            let h = snap(startH + (e.clientY - startY));
-            w = clamp(w, 100, canvas.clientWidth - widget.offsetLeft);
-            h = clamp(h, 100, canvas.clientHeight - widget.offsetTop);
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
     
-            const allowed = canPlaceAt(widget.offsetLeft, widget.offsetTop, w, h, widget);
+            let width = snap(startWidth + (clientX - startX));
+            let height = snap(startHeight + (clientY - startY));
+            width = clamp(width, 100, canvas.clientWidth - widget.offsetLeft);
+            height = clamp(height, 100, canvas.clientHeight - widget.offsetTop);
+    
+            const allowed = canPlaceAt(widget.offsetLeft, widget.offsetTop, width, height, widget);
     
             ghost.style.left = widget.offsetLeft + 'px';
             ghost.style.top = widget.offsetTop + 'px';
-            ghost.style.width = w + 'px';
-            ghost.style.height = h + 'px';
+            ghost.style.width = width + 'px';
+            ghost.style.height = height + 'px';
             ghost.style.display = 'block';
             ghost.style.borderColor = allowed ? 'cornflowerblue' : 'red';
     
             if (allowed) {
-              widget.style.width = w + 'px';
-              widget.style.height = h + 'px';
-              saveWidgetPositions(); // ✅ Save size
+              widget.style.width = width + 'px';
+              widget.style.height = height + 'px';
+              saveWidgetPositions();
             }
     
             canvas.style.cursor = allowed ? 'se-resize' : 'not-allowed';
@@ -2830,15 +2932,29 @@
     
             document.removeEventListener('mousemove', resize);
             document.removeEventListener('mouseup', stop);
+            document.removeEventListener('touchmove', resize);
+            document.removeEventListener('touchend', stop);
           };
     
           document.addEventListener('mousemove', resize);
           document.addEventListener('mouseup', stop);
-        });
+          document.addEventListener('touchmove', resize);
+          document.addEventListener('touchend', stop);
+        }
+    
+        resizer.addEventListener('mousedown', startResize);
+        resizer.addEventListener('touchstart', startResize);
       });
     
       // Safety fallback
       window.addEventListener('mouseup', () => {
+        isDragging = false;
+        isResizing = false;
+        ghost.style.display = 'none';
+        canvas.style.cursor = 'default';
+      });
+    
+      window.addEventListener('touchend', () => {
         isDragging = false;
         isResizing = false;
         ghost.style.display = 'none';
