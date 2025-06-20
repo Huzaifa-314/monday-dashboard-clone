@@ -433,7 +433,7 @@
     #canvas{
       position: relative;
       width: 100%;
-      height: 3000px;
+      height: 2000px;
     }
 
     .widget {
@@ -443,20 +443,25 @@
       border: 1px solid #ddd;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       z-index: 10;
-      overflow: hidden;
       user-select: none;
-      -webkit-user-drag: none;
-      transition: left 0.2s ease, top 0.2s ease, width 0.2s ease, height 0.2s ease;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
     }
-
-    .drag-handle {
-      cursor: grab;
-      font-size: 16px;
-      letter-spacing: 2px;
-      color: #666;
-      margin-right: 8px;
+    
+    .widget-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-sizing: border-box;
     }
-
+    
+    .widget-scrollable-content {
+      flex: 1;
+      overflow: auto;
+    }
+    
     .widget-resizer {
       width: 15px;
       height: 15px;
@@ -465,8 +470,16 @@
       right: 0;
       bottom: 0;
       cursor: se-resize;
-      user-select: none;
-      -webkit-user-drag: none;
+      z-index: 20;
+      border-radius: 0 0 4px 0;
+    }
+
+    .drag-handle {
+      cursor: grab;
+      font-size: 16px;
+      letter-spacing: 2px;
+      color: #666;
+      margin-right: 8px;
     }
 
     .ghost {
@@ -1131,424 +1144,453 @@
 
       <div id="canvas" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
 
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
-          <div class="flex justify-between items-center mb-6">
-            <span class="drag-handle">⋮⋮</span>
-            <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
-              Weekly Progress
-            </h3>
-            <div class="flex items-center space-x-2">
-              <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="flex items-end space-x-4 h-52 mb-6" id="weekly-chart">
-            <div class="flex-1 flex flex-col items-center">
-              <div class="chart-bar bg-gradient-to-t from-app-blue to-blue-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 60px"></div>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Mon</span>
-              <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">6</span>
-            </div>
-            <div class="flex-1 flex flex-col items-center">
-              <div class="chart-bar bg-gradient-to-t from-status-done to-green-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 80px"></div>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Tue</span>
-              <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">8</span>
-            </div>
-            <div class="flex-1 flex flex-col items-center">
-              <div class="chart-bar bg-gradient-to-t from-status-working to-amber-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 45px"></div>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Wed</span>
-              <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">4</span>
-            </div>
-            <div class="flex-1 flex flex-col items-center">
-              <div class="chart-bar bg-gradient-to-t from-app-purple to-purple-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 90px"></div>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Thu</span>
-              <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">9</span>
-            </div>
-            <div class="flex-1 flex flex-col items-center">
-              <div class="chart-bar bg-gradient-to-t from-app-pink to-pink-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 70px"></div>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Fri</span>
-              <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">7</span>
-            </div>
-          </div>
-          <div class="flex items-center justify-between px-2">
-            <div class="flex items-center space-x-2">
-              <div class="w-3 h-3 bg-gradient-to-r from-app-blue to-app-purple rounded-full"></div>
-              <span class="text-xs text-gray-500 dark:text-gray-400">Completed</span>
-            </div>
-            <div class="text-xl font-bold text-gray-900 dark:text-white">
-              34
-            </div>
-          </div>
-          <div class="mt-4 flex justify-center">
-            <div class="flex space-x-1 text-status-done text-sm font-medium">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-              </svg>
-              <span>24% from last week</span>
-            </div>
-          </div>
-          <div class="widget-resizer"></div>
-        </div>
-
-
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px] top-[0px] left-[400px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
-          <div class="flex justify-between items-center mb-6">
-            <span class="drag-handle">⋮⋮</span>
-            <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
-              June 2025
-            </h3>
-            <div class="flex items-center space-x-2">
-              <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-              </button>
-              <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="grid grid-cols-7 gap-2 text-center mb-2">
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              S
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              M
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              T
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              W
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              T
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              F
-            </div>
-            <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
-              S
-            </div>
-          </div>
-          <div class="grid grid-cols-7 gap-2 mb-4">
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">1</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">2</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">3</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">4</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">5</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">6</div>
-            <div class="p-2 text-xs text-center text-gray-400 rounded-lg">7</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              8</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              9</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              10</div>
-            <div class="p-2 text-xs text-center bg-app-blue text-white rounded-lg font-medium shadow-md shadow-blue-500/20">
-              11
-            </div>
-            <div class="p-2 text-xs text-center bg-status-stuck text-white rounded-lg font-medium shadow-md shadow-red-500/20">
-              12
-            </div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              13</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              14</div>
-            <div class="p-2 text-xs text-center bg-status-pending text-white rounded-lg font-medium shadow-md shadow-indigo-500/20">
-              15
-            </div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              16</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              17</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              18</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              19</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              20</div>
-            <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
-              21</div>
-          </div>
-          <div class="mt-2 space-y-3">
-            <div class="flex items-center space-x-3 p-3 bg-app-blue/10 rounded-xl">
-              <div class="w-2 h-2 bg-app-blue rounded-full"></div>
-              <span class="text-sm text-gray-800 dark:text-gray-200">Today (11th)</span>
-              <div class="ml-auto text-xs bg-app-blue/20 text-app-blue px-2 py-1 rounded-lg">
-                Today
-              </div>
-            </div>
-            <div class="flex items-center space-x-3 p-3 bg-status-stuck/10 rounded-xl">
-              <div class="w-2 h-2 bg-status-stuck rounded-full"></div>
-              <span class="text-sm text-gray-800 dark:text-gray-200">API Fix Due (12th)</span>
-              <div class="ml-auto text-xs bg-status-stuck/20 text-status-stuck px-2 py-1 rounded-lg">
-                Tomorrow
-              </div>
-            </div>
-            <div class="flex items-center space-x-3 p-3 bg-status-pending/10 rounded-xl">
-              <div class="w-2 h-2 bg-status-pending rounded-full"></div>
-              <span class="text-sm text-gray-800 dark:text-gray-200">Code Review (15th)</span>
-              <div class="ml-auto text-xs bg-status-pending/20 text-status-pending px-2 py-1 rounded-lg">
-                4 days
-              </div>
-            </div>
-          </div>
-          <div class="widget-resizer"></div>
-        </div>
-
-
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[300px] h-[300px] top-[0px] left-[700px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
-          <div class="flex justify-between items-center mb-6">
-            <span class="drag-handle">⋮⋮</span>
-            <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
-              Team Performance
-            </h3>
-            <div class="flex items-center space-x-2">
-              <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="space-y-6">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-app-blue to-blue-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-500/20">
-                  JD
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    John Doe
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
-                    Frontend Dev
-                  </div>
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[450px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
+          <div class="widget-inner h-full flex flex-col">
+            <div class="widget-scrollable-content p-6 overflow-auto flex-1">
+              <div class="flex justify-between items-center mb-6">
+                <span class="drag-handle">⋮⋮</span>
+                <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
+                  Weekly Progress
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                      </path>
+                    </svg>
+                  </button>
                 </div>
               </div>
-              <div class="text-right">
-                <div class="text-sm font-bold text-gray-900 dark:text-white">
-                  92%
+              <div class="flex items-end space-x-4 h-52 mb-6" id="weekly-chart">
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="chart-bar bg-gradient-to-t from-app-blue to-blue-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 60px"></div>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Mon</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">6</span>
                 </div>
-                <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                  <div class="bg-status-done h-2 rounded-full animate-progress" style="--progress-width: 92%"></div>
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="chart-bar bg-gradient-to-t from-status-done to-green-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 80px"></div>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Tue</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">8</span>
                 </div>
-              </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-app-purple to-purple-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-500/20">
-                  AS
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="chart-bar bg-gradient-to-t from-status-working to-amber-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 45px"></div>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Wed</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">4</span>
                 </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    Alice Smith
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
-                    Backend Dev
-                  </div>
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="chart-bar bg-gradient-to-t from-app-purple to-purple-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 90px"></div>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Thu</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">9</span>
                 </div>
-              </div>
-              <div class="text-right">
-                <div class="text-sm font-bold text-gray-900 dark:text-white">
-                  88%
-                </div>
-                <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                  <div class="bg-status-working h-2 rounded-full animate-progress" style="--progress-width: 88%"></div>
+                <div class="flex-1 flex flex-col items-center">
+                  <div class="chart-bar bg-gradient-to-t from-app-pink to-pink-400 rounded-t-lg w-8 md:w-10 mb-2 shadow-lg" style="height: 70px"></div>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Fri</span>
+                  <span class="text-xs font-bold text-gray-900 dark:text-white mt-1">7</span>
                 </div>
               </div>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-app-green to-green-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-green-500/20">
-                  MB
+              <div class="flex items-center justify-between px-2">
+                <div class="flex items-center space-x-2">
+                  <div class="w-3 h-3 bg-gradient-to-r from-app-blue to-app-purple rounded-full"></div>
+                  <span class="text-xs text-gray-500 dark:text-gray-400">Completed</span>
                 </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-900 dark:text-white">
-                    Mike Brown
-                  </div>
-                  <div class="text-xs text-gray-500 dark:text-gray-400">
-                    UI Designer
-                  </div>
+                <div class="text-xl font-bold text-gray-900 dark:text-white">
+                  34
                 </div>
               </div>
-              <div class="text-right">
-                <div class="text-sm font-bold text-gray-900 dark:text-white">
-                  76%
-                </div>
-                <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
-                  <div class="bg-status-pending h-2 rounded-full animate-progress" style="--progress-width: 76%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-app-border/30 dark:border-gray-700/30">
-            <div class="flex justify-between items-center">
-              <span class="text-sm text-gray-500 dark:text-gray-400">Team Average</span>
-              <span class="text-lg font-bold text-gray-900 dark:text-white">85%</span>
-            </div>
-            <div class="mt-2 w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div class="bg-gradient-to-r from-app-blue to-app-purple h-2 rounded-full animate-progress" style="--progress-width: 85%"></div>
-            </div>
-          </div>
-          <div class="widget-resizer"></div>
-        </div>
-
-
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[600px] h-[300px] top-[300px] left-[0px]" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
-          <div class="flex justify-between items-center mb-6">
-            <span class="drag-handle">⋮⋮</span>
-            <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
-              Task Distribution
-            </h3>
-            <div class="flex items-center space-x-2">
-              <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                  </path>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div class="w-16 h-16 bg-gradient-to-br from-status-done to-green-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-green-500/20">
-                <span class="text-white font-bold text-xl">8</span>
-              </div>
-              <div class="text-sm font-medium text-gray-900 dark:text-white">
-                Done
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">32%</div>
-              <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div class="bg-status-done h-full rounded-full animate-progress" style="--progress-width: 32%"></div>
-              </div>
-            </div>
-            <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div class="w-16 h-16 bg-gradient-to-br from-status-working to-amber-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/20">
-                <span class="text-white font-bold text-xl">12</span>
-              </div>
-              <div class="text-sm font-medium text-gray-900 dark:text-white">
-                Working
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">48%</div>
-              <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div class="bg-status-working h-full rounded-full animate-progress" style="--progress-width: 48%"></div>
-              </div>
-            </div>
-            <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div class="w-16 h-16 bg-gradient-to-br from-status-stuck to-red-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-red-500/20">
-                <span class="text-white font-bold text-xl">3</span>
-              </div>
-              <div class="text-sm font-medium text-gray-900 dark:text-white">
-                Stuck
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">12%</div>
-              <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div class="bg-status-stuck h-full rounded-full animate-progress" style="--progress-width: 12%"></div>
-              </div>
-            </div>
-            <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div class="w-16 h-16 bg-gradient-to-br from-status-pending to-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-500/20">
-                <span class="text-white font-bold text-xl">2</span>
-              </div>
-              <div class="text-sm font-medium text-gray-900 dark:text-white">
-                Pending
-              </div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">8%</div>
-              <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div class="bg-status-pending h-full rounded-full animate-progress" style="--progress-width: 8%"></div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-6 pt-4 border-t border-app-border/30 dark:border-gray-700/30 flex justify-between">
-            <div class="text-sm text-gray-500 dark:text-gray-400">Total Tasks: <span class="font-medium text-gray-700 dark:text-gray-300">25</span></div>
-
-          </div>
-          <div class="widget-resizer"></div>
-        </div>
-
-
-        <div class="widget glass-card rounded-2xl p-6 transition-all duration-300 hover:shadow-xl w-[900px] h-[300px] top-[600px] left-[0px]" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
-          <div class="flex justify-between items-center mb-6">
-            <span class="drag-handle">⋮⋮</span>
-            <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
-              Weekly Overview
-            </h3>
-            <div class="flex items-center space-x-2">
-              <div class="relative">
-                <select id="time-filter" class="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-1.5 pl-3 pr-8 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="thisWeek">This Week</option>
-                  <option value="lastWeek">Last Week</option>
-                  <option value="lastMonth">Last Month</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+              <div class="mt-4 flex justify-center">
+                <div class="flex space-x-1 text-status-done text-sm font-medium">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                   </svg>
+                  <span>24% from last week</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </div>
-              <div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">Completed Tasks</div>
-                <div id="completed-tasks-value" class="text-xl font-bold text-gray-900 dark:text-white">24</div>
-                <div class="flex items-center space-x-1 text-green-500 text-xs font-medium">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                  </svg>
-                  <span id="completed-tasks-change">15%</span>
+          <div class="widget-resizer"></div>
+        </div>
+
+
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[450px] top-[0px] left-[340px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
+
+          <div class="widget-inner h-full flex flex-col">
+            <div class="widget-scrollable-content p-6 overflow-auto flex-1">
+              <div class="flex justify-between items-center mb-6">
+                <span class="drag-handle">⋮⋮</span>
+                <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
+                  June 2025
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                  </button>
+                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </button>
                 </div>
               </div>
-            </div>
-            <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-              </div>
-              <div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">Hours Spent</div>
-                <div id="hours-spent-value" class="text-xl font-bold text-gray-900 dark:text-white">162</div>
-                <div class="flex items-center space-x-1 text-indigo-500 text-xs font-medium">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                  </svg>
-                  <span id="hours-spent-change">8%</span>
+              <div class="grid grid-cols-7 gap-2 text-center mb-2">
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  S
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  M
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  T
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  W
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  T
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  F
+                </div>
+                <div class="text-xs font-semibold text-gray-500 dark:text-gray-400 py-2">
+                  S
                 </div>
               </div>
-            </div>
-            <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
-              <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+              <div class="grid grid-cols-7 gap-2 mb-4">
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">1</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">2</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">3</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">4</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">5</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">6</div>
+                <div class="p-2 text-xs text-center text-gray-400 rounded-lg">7</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  8</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  9</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  10</div>
+                <div class="p-2 text-xs text-center bg-app-blue text-white rounded-lg font-medium shadow-md shadow-blue-500/20">
+                  11
+                </div>
+                <div class="p-2 text-xs text-center bg-status-stuck text-white rounded-lg font-medium shadow-md shadow-red-500/20">
+                  12
+                </div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  13</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  14</div>
+                <div class="p-2 text-xs text-center bg-status-pending text-white rounded-lg font-medium shadow-md shadow-indigo-500/20">
+                  15
+                </div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  16</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  17</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  18</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  19</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  20</div>
+                <div class="p-2 text-xs text-center text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer transition-colors">
+                  21</div>
               </div>
-              <div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">Overdue Tasks</div>
-                <div id="overdue-tasks-value" class="text-xl font-bold text-gray-900 dark:text-white">3</div>
-                <div class="flex items-center space-x-1 text-red-500 text-xs font-medium">
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"></path>
-                  </svg>
-                  <span id="overdue-tasks-change">-2</span>
+              <div class="mt-2 space-y-3">
+                <div class="flex items-center space-x-3 p-3 bg-app-blue/10 rounded-xl">
+                  <div class="w-2 h-2 bg-app-blue rounded-full"></div>
+                  <span class="text-sm text-gray-800 dark:text-gray-200">Today (11th)</span>
+                  <div class="ml-auto text-xs bg-app-blue/20 text-app-blue px-2 py-1 rounded-lg">
+                    Today
+                  </div>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-status-stuck/10 rounded-xl">
+                  <div class="w-2 h-2 bg-status-stuck rounded-full"></div>
+                  <span class="text-sm text-gray-800 dark:text-gray-200">API Fix Due (12th)</span>
+                  <div class="ml-auto text-xs bg-status-stuck/20 text-status-stuck px-2 py-1 rounded-lg">
+                    Tomorrow
+                  </div>
+                </div>
+                <div class="flex items-center space-x-3 p-3 bg-status-pending/10 rounded-xl">
+                  <div class="w-2 h-2 bg-status-pending rounded-full"></div>
+                  <span class="text-sm text-gray-800 dark:text-gray-200">Code Review (15th)</span>
+                  <div class="ml-auto text-xs bg-status-pending/20 text-status-pending px-2 py-1 rounded-lg">
+                    4 days
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          
+          <div class="widget-resizer"></div>
+        </div>
+
+
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[410px] h-[450px] top-[0px] left-[680px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
+
+          <div class="widget-inner h-full flex flex-col">
+            <div class="widget-scrollable-content p-6 overflow-auto flex-1">
+              <div class="flex justify-between items-center mb-6">
+                <span class="drag-handle">⋮⋮</span>
+                <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
+                  Team Performance
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="space-y-6">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-app-blue to-blue-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-500/20">
+                      JD
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        John Doe
+                      </div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">
+                        Frontend Dev
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-bold text-gray-900 dark:text-white">
+                      92%
+                    </div>
+                    <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                      <div class="bg-status-done h-2 rounded-full animate-progress" style="--progress-width: 92%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-app-purple to-purple-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-500/20">
+                      AS
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        Alice Smith
+                      </div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">
+                        Backend Dev
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-bold text-gray-900 dark:text-white">
+                      88%
+                    </div>
+                    <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                      <div class="bg-status-working h-2 rounded-full animate-progress" style="--progress-width: 88%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-app-green to-green-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-green-500/20">
+                      MB
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        Mike Brown
+                      </div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">
+                        UI Designer
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-bold text-gray-900 dark:text-white">
+                      76%
+                    </div>
+                    <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                      <div class="bg-status-pending h-2 rounded-full animate-progress" style="--progress-width: 76%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 pt-4 border-t border-app-border/30 dark:border-gray-700/30">
+                <div class="flex justify-between items-center">
+                  <span class="text-sm text-gray-500 dark:text-gray-400">Team Average</span>
+                  <span class="text-lg font-bold text-gray-900 dark:text-white">85%</span>
+                </div>
+                <div class="mt-2 w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div class="bg-gradient-to-r from-app-blue to-app-purple h-2 rounded-full animate-progress" style="--progress-width: 85%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="widget-resizer"></div>
+        </div>
+
+
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[600px] h-[340px] top-[460px] left-[0px]" draggable="true" data-widget-id="distribution" data-min-width="640" data-min-height="320">
+
+          <div class="widget-inner h-full flex flex-col">
+            <div class="widget-scrollable-content p-6 overflow-auto flex-1">
+              <div class="flex justify-between items-center mb-6">
+                <span class="drag-handle">⋮⋮</span>
+                <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
+                  Task Distribution
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div class="w-16 h-16 bg-gradient-to-br from-status-done to-green-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-green-500/20">
+                    <span class="text-white font-bold text-xl">8</span>
+                  </div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    Done
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">32%</div>
+                  <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="bg-status-done h-full rounded-full animate-progress" style="--progress-width: 32%"></div>
+                  </div>
+                </div>
+                <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div class="w-16 h-16 bg-gradient-to-br from-status-working to-amber-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-amber-500/20">
+                    <span class="text-white font-bold text-xl">12</span>
+                  </div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    Working
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">48%</div>
+                  <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="bg-status-working h-full rounded-full animate-progress" style="--progress-width: 48%"></div>
+                  </div>
+                </div>
+                <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div class="w-16 h-16 bg-gradient-to-br from-status-stuck to-red-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-red-500/20">
+                    <span class="text-white font-bold text-xl">3</span>
+                  </div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    Stuck
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">12%</div>
+                  <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="bg-status-stuck h-full rounded-full animate-progress" style="--progress-width: 12%"></div>
+                  </div>
+                </div>
+                <div class="text-center p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div class="w-16 h-16 bg-gradient-to-br from-status-pending to-indigo-400 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-500/20">
+                    <span class="text-white font-bold text-xl">2</span>
+                  </div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">
+                    Pending
+                  </div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">8%</div>
+                  <div class="mt-3 w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div class="bg-status-pending h-full rounded-full animate-progress" style="--progress-width: 8%"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-6 pt-4 border-t border-app-border/30 dark:border-gray-700/30 flex justify-between">
+                <div class="text-sm text-gray-500 dark:text-gray-400">Total Tasks: <span class="font-medium text-gray-700 dark:text-gray-300">25</span></div>
+    
+              </div>
+            </div>
+          </div>
+          
+          <div class="widget-resizer"></div>
+        </div>
+
+
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[900px] h-[300px] top-[820px] left-[0px]" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
+
+          <div class="widget-inner h-full flex flex-col">
+            <div class="widget-scrollable-content p-6 overflow-auto flex-1">
+              <div class="flex justify-between items-center mb-6">
+                <span class="drag-handle">⋮⋮</span>
+                <h3 class="text-lg font-title font-bold text-gray-900 dark:text-white">
+                  Weekly Overview
+                </h3>
+                <div class="flex items-center space-x-2">
+                  <div class="relative">
+                    <select id="time-filter" class="appearance-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-1.5 pl-3 pr-8 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="thisWeek">This Week</option>
+                      <option value="lastWeek">Last Week</option>
+                      <option value="lastMonth">Last Month</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Completed Tasks</div>
+                    <div id="completed-tasks-value" class="text-xl font-bold text-gray-900 dark:text-white">24</div>
+                    <div class="flex items-center space-x-1 text-green-500 text-xs font-medium">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                      </svg>
+                      <span id="completed-tasks-change">15%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-500 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Hours Spent</div>
+                    <div id="hours-spent-value" class="text-xl font-bold text-gray-900 dark:text-white">162</div>
+                    <div class="flex items-center space-x-1 text-indigo-500 text-xs font-medium">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                      </svg>
+                      <span id="hours-spent-change">8%</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-4 bg-white/50 dark:bg-gray-800/20 rounded-xl flex items-center space-x-4">
+                  <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-red-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">Overdue Tasks</div>
+                    <div id="overdue-tasks-value" class="text-xl font-bold text-gray-900 dark:text-white">3</div>
+                    <div class="flex items-center space-x-1 text-red-500 text-xs font-medium">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"></path>
+                      </svg>
+                      <span id="overdue-tasks-change">-2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
           <div class="widget-resizer"></div>
         </div>
 
@@ -1796,10 +1838,6 @@
           animateCharts();
         }, 200);
       }
-
-      setTimeout(() => {
-        initializeDragAndDrop();
-      }, 100);
     }
 
     function animateCharts() {
@@ -2175,7 +2213,7 @@
   </script>
 
   <script>
-    let gridSize = 50
+    let gridSize = 20;
     const canvas = document.getElementById('canvas');
     const ghost = document.createElement('div');
     ghost.className = 'ghost';
@@ -2192,21 +2230,17 @@
     }
   
     function getOtherRects(exclude) {
-      const canvasRect = document.querySelector('#canvas').getBoundingClientRect();
-    
+      const canvasRect = canvas.getBoundingClientRect();
+  
       return [...document.querySelectorAll('#canvas .widget')]
         .filter(w => w !== exclude)
         .map(w => {
           const rect = w.getBoundingClientRect();
           return {
-            x: rect.x - canvasRect.x,
-            y: rect.y - canvasRect.y,
-            width: rect.width,
-            height: rect.height,
-            top: rect.top - canvasRect.top,
             left: rect.left - canvasRect.left,
+            top: rect.top - canvasRect.top,
             right: rect.right - canvasRect.left,
-            bottom: rect.bottom - canvasRect.top,
+            bottom: rect.bottom - canvasRect.top
           };
         });
     }
@@ -2217,21 +2251,45 @@
   
     function canPlaceAt(x, y, w, h, self) {
       const rect = { left: x, top: y, right: x + w, bottom: y + h };
-      console.log("Attempting to place widget:");
-      console.log("Proposed Rect:", rect);
-    
-      const otherRects = getOtherRects(self);
-      console.log("Other Widgets' Rects:", otherRects);
-    
-      const isOverlappingWithAny = otherRects.some(r => {
-        const overlapping = isOverlapping(rect, r);
-        console.log(`Checking overlap with rect: ${JSON.stringify(r)}, Overlapping: ${overlapping}`);
-        return overlapping;
-      });
-    
-      console.log("Can Place:", !isOverlappingWithAny);
-      return !isOverlappingWithAny;
+      const others = getOtherRects(self);
+      return !others.some(r => isOverlapping(rect, r));
     }
+  
+    function saveWidgetPositions() {
+      const positions = {};
+      document.querySelectorAll('#canvas .widget').forEach(widget => {
+        const id = widget.dataset.widgetId;
+        positions[id] = {
+          left: widget.style.left,
+          top: widget.style.top,
+          width: widget.style.width,
+          height: widget.style.height
+        };
+      });
+      localStorage.setItem('widgetPositions', JSON.stringify(positions));
+    }
+  
+    function restoreWidgetPositions() {
+      const saved = JSON.parse(localStorage.getItem('widgetPositions') || '{}');
+      document.querySelectorAll('#canvas .widget').forEach(widget => {
+        const id = widget.dataset.widgetId;
+        if (saved[id]) {
+          widget.style.position = 'absolute';
+          widget.style.left = saved[id].left;
+          widget.style.top = saved[id].top;
+          widget.style.width = saved[id].width;
+          widget.style.height = saved[id].height;
+        }
+      });
+    }
+  
+    function resetWidgetPositions() {
+      localStorage.removeItem('widgetPositions');
+      location.reload();
+    }
+  
+    // Restore on page load
+    window.addEventListener('DOMContentLoaded', restoreWidgetPositions);
   
     document.querySelectorAll('#canvas .widget').forEach(widget => {
       const handle = widget.querySelector('.drag-handle');
@@ -2242,7 +2300,6 @@
         e.preventDefault();
         isDragging = true;
         offsetX = e.clientX - widget.offsetLeft;
-        console.log(e.clientX, e.clientY, widget.offsetLeft, widget.offsetTop);
         offsetY = e.clientY - widget.offsetTop;
         widget.style.zIndex = 100;
   
@@ -2263,7 +2320,7 @@
           ghost.style.display = 'block';
           ghost.style.borderColor = allowed ? 'cornflowerblue' : 'red';
   
-          widget.dataset.validDrop = allowed ? 'true' : 'false';
+          widget.dataset.validDrop = allowed;
           if (allowed) {
             widget.dataset.snapX = x;
             widget.dataset.snapY = y;
@@ -2276,6 +2333,7 @@
           if (isDragging && widget.dataset.validDrop === 'true') {
             widget.style.left = widget.dataset.snapX + 'px';
             widget.style.top = widget.dataset.snapY + 'px';
+            saveWidgetPositions(); // ✅ Save position
           }
   
           isDragging = false;
@@ -2323,6 +2381,7 @@
           if (allowed) {
             widget.style.width = w + 'px';
             widget.style.height = h + 'px';
+            saveWidgetPositions(); // ✅ Save size
           }
   
           canvas.style.cursor = allowed ? 'se-resize' : 'not-allowed';
@@ -2343,22 +2402,14 @@
       });
     });
   
-    // Emergency fail-safe for stuck interactions
-    window.addEventListener('mouseup', () => {let gridSize = getDynamicGridSize();
-  
-  function getDynamicGridSize() {
-    const width = canvas.clientWidth;
-    return Math.max(50, Math.round(width / 12)); // Ensures minimum grid size
-  }
-  
-  window.addEventListener('resize', () => {
-    gridSize = getDynamicGridSize();
-  });
+    // Safety fallback
+    window.addEventListener('mouseup', () => {
       isDragging = false;
       isResizing = false;
       ghost.style.display = 'none';
       canvas.style.cursor = 'default';
     });
   </script>
+  
 
 </body></html>
