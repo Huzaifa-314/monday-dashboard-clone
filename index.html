@@ -516,17 +516,6 @@
 
 
     /* task filter style */
-    #filter-dropdown {
-      position: absolute; /* Ensure the dropdown is positioned relative to the header */
-      top: 100%; /* Position it below the filter button */
-      left: 0; /* Align it to the left of the button */
-      z-index: 50; /* Ensure it appears above other elements */
-      background-color: white; /* Background for the dropdown */
-      border: 1px solid #E2E8F0; /* Add a border */
-      border-radius: 8px; /* Rounded corners */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add a shadow */
-      display: none; /* Initially hidden */
-    }
   
     #filter-dropdown.show {
       display: block; /* Show the dropdown when the 'show' class is added */
@@ -553,7 +542,7 @@
 
   <!-- login page -->
   <div id="login-page" class="fixed inset-0 bg-gradient-to-br from-app-blue to-app-purple flex items-center justify-center">
-    <div class="bg-white dark:bg-app-dark rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <div class="m-4 bg-white dark:bg-app-dark rounded-2xl shadow-lg p-8 w-full max-w-md">
       <h2 class="text-2xl font-title font-bold text-gray-900 dark:text-white mb-6 text-center">Welcome to Myschedule</h2>
       <form id="login-form" class="space-y-4">
         <div>
@@ -2000,7 +1989,7 @@
       </div>
     </div>
 
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 
     <div id="new-task-modal" class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
@@ -2191,11 +2180,13 @@
       function toggleSidebar() {
         const sidebar = document.getElementById("sidebar");
         const overlay = document.getElementById("sidebar-overlay");
-
+      
         if (sidebar.classList.contains("-translate-x-full")) {
+          // Show the sidebar and overlay
           sidebar.classList.remove("-translate-x-full");
           overlay.classList.remove("hidden");
         } else {
+          // Hide the sidebar and overlay
           sidebar.classList.add("-translate-x-full");
           overlay.classList.add("hidden");
         }
