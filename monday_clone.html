@@ -433,7 +433,7 @@
     #canvas{
       position: relative;
       width: 100%;
-      height: 2000px;
+      height: 1500px;
     }
 
     .widget {
@@ -490,6 +490,23 @@
       z-index: 1;
       display: none;
       transition: all 0.2s ease;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%; /* Position the dropdown below the button */
+      left: 0; /* Align it to the left of the button */
+      transform: translateY(0); /* Ensure no additional offset */
+      z-index: 10; /* Ensure it appears above other elements */
+      display: none; /* Initially hidden */
+    }
+  
+    .dropdown-menu.hidden {
+      display: none; /* Hide the dropdown when the 'hidden' class is applied */
+    }
+  
+    .dropdown-menu:not(.hidden) {
+      display: block; /* Show the dropdown when the 'hidden' class is removed */
     }
 
   </style>
@@ -1142,9 +1159,13 @@
         </div>
       </div>
 
+
+
+
+      <!-- widgets -->
       <div id="canvas" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
 
-        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[450px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[440px]" draggable="true" data-widget-id="progress" data-min-width="300" data-min-height="300">
           <div class="widget-inner h-full flex flex-col">
             <div class="widget-scrollable-content p-6 overflow-auto flex-1">
               <div class="flex justify-between items-center mb-6">
@@ -1153,12 +1174,25 @@
                   Weekly Progress
                 </h3>
                 <div class="flex items-center space-x-2">
-                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                      </path>
-                    </svg>
-                  </button>
+                  <!-- Ellipsis Button -->
+                  <div class="relative inline-block text-left">
+                    <!-- Ellipsis Button -->
+                    <button onclick="toggleDropdown(this)" class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                      </svg>
+                    </button>
+                  
+                    <!-- Dropdown Menu -->
+                    <div class="menu-dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <button onclick="deleteWidget(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700">
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
                 </div>
               </div>
               <div class="flex items-end space-x-4 h-52 mb-6" id="weekly-chart">
@@ -1211,7 +1245,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[450px] top-[0px] left-[340px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[320px] h-[440px] top-[0px] left-[340px]" draggable="true" data-widget-id="calendar" data-min-width="320" data-min-height="320">
 
           <div class="widget-inner h-full flex flex-col">
             <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -1231,6 +1265,24 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                   </button>
+
+                  <div class="relative inline-block text-left">
+                    <!-- Ellipsis Button -->
+                    <button onclick="toggleDropdown(this)" class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                      </svg>
+                    </button>
+                  
+                    <!-- Dropdown Menu -->
+                    <div class="menu-dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <button onclick="deleteWidget(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700">
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="grid grid-cols-7 gap-2 text-center mb-2">
@@ -1326,7 +1378,7 @@
         </div>
 
 
-        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[410px] h-[450px] top-[0px] left-[680px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
+        <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[410px] h-[440px] top-[0px] left-[680px]" draggable="true" data-widget-id="team" data-min-width="320" data-min-height="320">
 
           <div class="widget-inner h-full flex flex-col">
             <div class="widget-scrollable-content p-6 overflow-auto flex-1">
@@ -1336,12 +1388,23 @@
                   Team Performance
                 </h3>
                 <div class="flex items-center space-x-2">
-                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                      </path>
-                    </svg>
-                  </button>
+                  <div class="relative inline-block text-left">
+                    <!-- Ellipsis Button -->
+                    <button onclick="toggleDropdown(this)" class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                      </svg>
+                    </button>
+                  
+                    <!-- Dropdown Menu -->
+                    <div class="menu-dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <button onclick="deleteWidget(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700">
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="space-y-6">
@@ -1441,12 +1504,23 @@
                   Task Distribution
                 </h3>
                 <div class="flex items-center space-x-2">
-                  <button class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
-                      </path>
-                    </svg>
-                  </button>
+                  <div class="relative inline-block text-left">
+                    <!-- Ellipsis Button -->
+                    <button onclick="toggleDropdown(this)" class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                      </svg>
+                    </button>
+                  
+                    <!-- Dropdown Menu -->
+                    <div class="menu-dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <button onclick="deleteWidget(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700">
+                          🗑️ Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -1509,7 +1583,6 @@
           <div class="widget-resizer"></div>
         </div>
 
-
         <div class="widget glass-card rounded-2xl transition-all duration-300 hover:shadow-xl w-[900px] h-[300px] top-[820px] left-[0px]" draggable="true" data-widget-id="weekly-overview" data-min-width="40" data-min-height="320">
 
           <div class="widget-inner h-full flex flex-col">
@@ -1530,6 +1603,23 @@
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                       </svg>
+                    </div>
+                  </div>
+                  <div class="relative inline-block text-left">
+                    <!-- Ellipsis Button -->
+                    <button onclick="toggleDropdown(this)" class="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                      </svg>
+                    </button>
+                  
+                    <!-- Dropdown Menu -->
+                    <div class="menu-dropdown hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <button onclick="deleteWidget(this)" class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-700">
+                          🗑️ Delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2204,14 +2294,21 @@
         behavior: 'smooth'
       });
     });
-
-    
-
-
-
-
   </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- functionality for dragging and resizing -->
   <script>
     let gridSize = 20;
     const canvas = document.getElementById('canvas');
@@ -2408,6 +2505,32 @@
       isResizing = false;
       ghost.style.display = 'none';
       canvas.style.cursor = 'default';
+    });
+  </script>
+
+
+
+  <!-- fuctinality for elipses -->
+  <script>
+    function deleteWidget(button) {
+      const widget = button.closest('.widget'); // Find the closest widget container
+      if (widget) {
+        widget.remove(); // Remove the widget from the DOM
+        showToast('Widget deleted successfully!', 'success'); // Optional: Show a success message
+      }
+    }
+    document.addEventListener('click', function (event) {
+      const dropdownMenu = event.target.closest('.dropdown-menu');
+      const ellipsisButton = event.target.closest('.p-1\\.5'); // Escape the period in the class name
+    
+      if (ellipsisButton) {
+        const menu = ellipsisButton.nextElementSibling;
+        if (menu) {
+          menu.classList.toggle('hidden');
+        }
+      } else if (!dropdownMenu) {
+        document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+      }
     });
   </script>
   
