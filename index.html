@@ -514,6 +514,21 @@
       display: none !important;
     }
 
+
+
+    /* making the table responsive */
+    @media (max-width: 640px) {
+      .responsive-action-buttons .text-label {
+        display: none;
+      }
+      .responsive-action-buttons .icon-label {
+        display: inline-block;
+      }
+      .no-wrap-mobile {
+        white-space: nowrap;
+      }
+    }
+
   </style>
 
 <body class="bg-app-light dark:bg-app-darker font-body transition-colors duration-300 overflow-x-hidden relative">
@@ -719,8 +734,25 @@
       </div>
     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- tasks -->
     <div class="p-6 pt-36" id="projects-view">
+      
 
       <!-- active tasks -->
       <div class="widget glass-card rounded-2xl overflow-hidden mb-8 transition-all duration-300 relative border border-gray-200 dark:border-gray-700" draggable="true" data-widget-id="tasks">
@@ -767,16 +799,16 @@
             </thead>
             <tbody>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="done">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white line-through">Design homepage
                       layout</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-blue to-blue-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-500/20">
                       JD
@@ -784,10 +816,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">John Doe</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <span class="status-pill bg-status-pending text-white">Pending</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -796,31 +828,47 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 10</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-status-done rounded-full"></div>
                     <span class="text-xs text-gray-500">Low</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
-                  <button class="completed-tasks-button px-3 py-1.5 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2" onclick="markAsCompleted(this)">
-                    Completed
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="working">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white">Implement user authentication</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-purple to-purple-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-500/20">
                       AS
@@ -828,10 +876,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Alice Smith</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-working text-white">Working on it</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-working text-white no-wrap-mobile">Working on it</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -840,31 +888,47 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 12</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-status-working rounded-full"></div>
                     <span class="text-xs text-gray-500">Medium</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
-                  <button class="completed-tasks-button px-3 py-1.5 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2" onclick="markAsCompleted(this)">
-                    Completed
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="stuck">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white">Fix API integration issues</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-green to-green-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-green-500/20">
                       MB
@@ -872,10 +936,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Mike Brown</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-stuck text-white">Stuck</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-stuck text-white no-wrap-mobile">Stuck</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-status-stuck" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -884,31 +948,47 @@
                     <span class="text-sm text-status-stuck font-medium">Jun 11</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-status-stuck rounded-full"></div>
                     <span class="text-xs text-gray-500">High</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
-                  <button class="completed-tasks-button px-3 py-1.5 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2" onclick="markAsCompleted(this)">
-                    Completed
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="pending">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white">Review code changes</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-pink to-pink-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-pink-500/20">
                       LW
@@ -916,10 +996,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Lisa Wilson</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-pending text-white">Pending</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-pending text-white no-wrap-mobile">Pending</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -928,31 +1008,47 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 15</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-status-pending rounded-full"></div>
                     <span class="text-xs text-gray-500">Medium</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
-                  <button class="completed-tasks-button px-3 py-1.5 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2" onclick="markAsCompleted(this)">
-                    Completed
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="working">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white">Update documentation</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-green to-teal-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-teal-500/20">
                       TJ
@@ -960,10 +1056,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Tom Johnson</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-working text-white">Working on it</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-working text-white no-wrap-mobile">Working on it</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -972,19 +1068,35 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 13</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-status-done rounded-full"></div>
                     <span class="text-xs text-gray-500">Low</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
-                  <button class="completed-tasks-button px-3 py-1.5 text-sm font-medium text-green-700 bg-white border border-green-300 rounded-lg hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2" onclick="markAsCompleted(this)">
-                    Completed
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -1044,16 +1156,16 @@
             </thead>
             <tbody>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="done">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white line-through">Create project
                       wireframes</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-green to-green-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-green-500/20">
                       MB
@@ -1061,10 +1173,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Mike Brown</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-done text-white">Done</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-done text-white no-wrap-mobile">Done</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -1073,29 +1185,48 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 7</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-app-blue rounded-full"></div>
                     <span class="text-xs text-gray-500">Medium</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
               <tr class="task-item hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors" data-status="done">
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-3">
                     <span class="text-sm font-medium text-gray-900 dark:text-white line-through">Create project
                       wireframes</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-app-green to-green-400 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-green-500/20">
                       MB
@@ -1103,10 +1234,10 @@
                     <span class="text-sm text-gray-700 dark:text-gray-300">Mike Brown</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <span class="status-pill bg-status-done text-white">Done</span>
+                <td class="p-4 no-wrap-mobile">
+                  <span class="status-pill bg-status-done text-white no-wrap-mobile">Done</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
@@ -1115,16 +1246,35 @@
                     <span class="text-sm text-gray-600 dark:text-gray-400">Jun 7</span>
                   </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-app-blue rounded-full"></div>
                     <span class="text-xs text-gray-500">Medium</span>
                   </div>
                 </td>
-                <td class="p-4">
-                  <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
-                    Edit
-                  </button>
+                <td class="p-4 no-wrap-mobile">
+                  <div class="flex gap-2 responsive-action-buttons">
+                    <!-- Edit Button -->
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl border border-gray-300 hover:bg-gray-100 text-gray-600 transition" onclick="editTask(this)">
+                      <span class="text-label">Edit</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"/>
+                          <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h4a1 1 0 110 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                
+                    <!-- Completed Button -->
+                    <button class="completed-tasks-button w-9 h-9 flex items-center justify-center rounded-xl border border-green-300 hover:bg-green-100 text-green-600 transition" onclick="markAsCompleted(this)">
+                      <span class="text-label">Completed</span>
+                      <span class="icon-label hidden">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L9 14.414 5.293 10.707a1 1 0 011.414-1.414L9 11.586l6.293-6.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                      </span>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -2142,26 +2292,26 @@
       newRow.setAttribute("data-status", taskStatus);
 
       newRow.innerHTML = `
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <input type="checkbox" class="task-select custom-checkbox" onchange="updateDeleteButton()">
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <div class="flex items-center space-x-3">
                         <span class="text-sm font-medium text-gray-900 dark:text-white ${taskStatus === "done" ? "line-through" : ""
         }">${taskName}</span>
                     </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 bg-gradient-to-br from-app-purple to-app-blue rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-500/20">SJ</div>
                         <span class="text-sm text-gray-700 dark:text-gray-300">Sarah Johnson</span>
                     </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <span class="status-pill ${statusColors[taskStatus]}">${taskStatus.charAt(0).toUpperCase() + taskStatus.slice(1)
         }</span>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <div class="flex items-center space-x-2">
                       <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -2169,13 +2319,13 @@
                       <span class="text-sm text-gray-600 dark:text-gray-400">${formattedDate}</span>
                     </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                     <div class="flex items-center space-x-2">
                       <div class="w-3 h-3 ${priorityColors[taskPriority]} rounded-full"></div>
                       <span class="text-xs text-gray-500">${taskPriority.charAt(0).toUpperCase() + taskPriority.slice(1)}</span>
                     </div>
                 </td>
-                <td class="p-4">
+                <td class="p-4 no-wrap-mobile">
                   <button class="px-3 py-1.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" onclick="editTask(this)">
                     Edit
                   </button>
