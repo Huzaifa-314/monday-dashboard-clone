@@ -111,6 +111,8 @@
 
 
     .status-pill {
+      
+      text-wrap: nowrap;
       transition: all 0.3s ease;
       border-radius: 6px;
       font-weight: 500;
@@ -119,6 +121,7 @@
       border: none;
       cursor: pointer;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+      flex: no-wrap;
     }
 
     .status-pill:hover {
@@ -520,6 +523,9 @@
   
     #filter-dropdown.show {
       display: block; /* Show the dropdown when the 'show' class is added */
+    }
+    .no-wrap-mobile {
+      white-space: nowrap;
     }
 
 
