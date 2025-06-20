@@ -452,6 +452,10 @@
       display: flex;
       flex-direction: column;
     }
+
+    .widget.resizing{
+      border: 2px solid purple;
+    }
     
     .widget-inner {
       flex: 1;
@@ -467,15 +471,23 @@
     }
     
     .widget-resizer {
+      opacity: 0;
       width: 15px;
       height: 15px;
-      background: #999;
+      border-radius: 50% !important;
+      background: purple;
       position: absolute;
-      right: 0;
-      bottom: 0;
+      right: -5px;
+      bottom: -5px;
       cursor: se-resize;
       z-index: 20;
-      border-radius: 0 0 4px 0;
+      transition: all 0.2s ease;
+    }
+    .widget-resizer:hover{
+      opacity: 1;
+    }
+    .widget-resizer.active{
+      opacity: 1;
     }
 
     .drag-handle {
@@ -2891,58 +2903,55 @@
     
         // Resizing functionality
         function startResize(event) {
+          resizer.classList.add('active');
+          widget.classList.add('resizing');
           event.preventDefault();
           event.stopPropagation();
           isResizing = true;
-    
+        
           const startX = event.touches ? event.touches[0].clientX : event.clientX;
           const startY = event.touches ? event.touches[0].clientY : event.clientY;
           const startWidth = widget.offsetWidth;
           const startHeight = widget.offsetHeight;
-    
+        
           widget.style.zIndex = 100;
-    
+        
           const resize = event => {
             if (!isResizing) return;
-    
+        
             const clientX = event.touches ? event.touches[0].clientX : event.clientX;
             const clientY = event.touches ? event.touches[0].clientY : event.clientY;
-    
+        
             let width = snap(startWidth + (clientX - startX));
             let height = snap(startHeight + (clientY - startY));
             width = clamp(width, 100, canvas.clientWidth - widget.offsetLeft);
             height = clamp(height, 100, canvas.clientHeight - widget.offsetTop);
-    
+        
             const allowed = canPlaceAt(widget.offsetLeft, widget.offsetTop, width, height, widget);
-    
-            ghost.style.left = widget.offsetLeft + 'px';
-            ghost.style.top = widget.offsetTop + 'px';
-            ghost.style.width = width + 'px';
-            ghost.style.height = height + 'px';
-            ghost.style.display = 'block';
-            ghost.style.borderColor = allowed ? 'cornflowerblue' : 'red';
-    
+        
             if (allowed) {
               widget.style.width = width + 'px';
               widget.style.height = height + 'px';
               saveWidgetPositions();
             }
-    
+        
             canvas.style.cursor = allowed ? 'se-resize' : 'not-allowed';
           };
-    
+        
           const stop = () => {
             isResizing = false;
-            ghost.style.display = 'none';
             canvas.style.cursor = 'default';
             widget.style.zIndex = 10;
-    
+        
+            resizer.classList.remove('active');
+            widget.classList.remove('resizing');
+        
             document.removeEventListener('mousemove', resize);
             document.removeEventListener('mouseup', stop);
             document.removeEventListener('touchmove', resize);
             document.removeEventListener('touchend', stop);
           };
-    
+        
           document.addEventListener('mousemove', resize);
           document.addEventListener('mouseup', stop);
           document.addEventListener('touchmove', resize);
