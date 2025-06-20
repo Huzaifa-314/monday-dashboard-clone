@@ -100,7 +100,7 @@
 </div>
 
 <script>
-  const gridSize = 100;
+  let gridSize = 50
   const canvas = document.getElementById('canvas');
   const ghost = document.createElement('div');
   ghost.className = 'ghost';
@@ -241,7 +241,16 @@
   });
 
   // Emergency fail-safe for stuck interactions
-  window.addEventListener('mouseup', () => {
+  window.addEventListener('mouseup', () => {let gridSize = getDynamicGridSize();
+
+function getDynamicGridSize() {
+  const width = canvas.clientWidth;
+  return Math.max(50, Math.round(width / 12)); // Ensures minimum grid size
+}
+
+window.addEventListener('resize', () => {
+  gridSize = getDynamicGridSize();
+});
     isDragging = false;
     isResizing = false;
     ghost.style.display = 'none';

@@ -2175,7 +2175,7 @@
   </script>
 
   <script>
-    const gridSize = 100;
+    let gridSize = 50
     const canvas = document.getElementById('canvas');
     const ghost = document.createElement('div');
     ghost.className = 'ghost';
@@ -2192,9 +2192,23 @@
     }
   
     function getOtherRects(exclude) {
-      return [...document.querySelectorAll('.widget')]
+      const canvasRect = document.querySelector('#canvas').getBoundingClientRect();
+    
+      return [...document.querySelectorAll('#canvas .widget')]
         .filter(w => w !== exclude)
-        .map(w => w.getBoundingClientRect());
+        .map(w => {
+          const rect = w.getBoundingClientRect();
+          return {
+            x: rect.x - canvasRect.x,
+            y: rect.y - canvasRect.y,
+            width: rect.width,
+            height: rect.height,
+            top: rect.top - canvasRect.top,
+            left: rect.left - canvasRect.left,
+            right: rect.right - canvasRect.left,
+            bottom: rect.bottom - canvasRect.top,
+          };
+        });
     }
   
     function isOverlapping(r1, r2) {
@@ -2203,7 +2217,20 @@
   
     function canPlaceAt(x, y, w, h, self) {
       const rect = { left: x, top: y, right: x + w, bottom: y + h };
-      return !getOtherRects(self).some(r => isOverlapping(rect, r));
+      console.log("Attempting to place widget:");
+      console.log("Proposed Rect:", rect);
+    
+      const otherRects = getOtherRects(self);
+      console.log("Other Widgets' Rects:", otherRects);
+    
+      const isOverlappingWithAny = otherRects.some(r => {
+        const overlapping = isOverlapping(rect, r);
+        console.log(`Checking overlap with rect: ${JSON.stringify(r)}, Overlapping: ${overlapping}`);
+        return overlapping;
+      });
+    
+      console.log("Can Place:", !isOverlappingWithAny);
+      return !isOverlappingWithAny;
     }
   
     document.querySelectorAll('#canvas .widget').forEach(widget => {
@@ -2215,6 +2242,7 @@
         e.preventDefault();
         isDragging = true;
         offsetX = e.clientX - widget.offsetLeft;
+        console.log(e.clientX, e.clientY, widget.offsetLeft, widget.offsetTop);
         offsetY = e.clientY - widget.offsetTop;
         widget.style.zIndex = 100;
   
@@ -2316,7 +2344,16 @@
     });
   
     // Emergency fail-safe for stuck interactions
-    window.addEventListener('mouseup', () => {
+    window.addEventListener('mouseup', () => {let gridSize = getDynamicGridSize();
+  
+  function getDynamicGridSize() {
+    const width = canvas.clientWidth;
+    return Math.max(50, Math.round(width / 12)); // Ensures minimum grid size
+  }
+  
+  window.addEventListener('resize', () => {
+    gridSize = getDynamicGridSize();
+  });
       isDragging = false;
       isResizing = false;
       ghost.style.display = 'none';
